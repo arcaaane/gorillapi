@@ -1,14 +1,16 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify
+import json, os
 
 app = Flask(__name__)
 
 @app.route("/")
 def home():
-    return jsonify({"status": "A content packed API for all things Gorilla Tag!"})
+    path = os.path.join(os.path.dirname(__file__), "data.json")
 
-@app.route("/hello")
-def main():
-    return jsonify({"message": f"placeholder lol"})
+    with open(path, "r") as f:
+        data = json.load(f)
+
+    return jsonify(data)
 
 def handler(environ, start_response):
     return app(environ, start_response)
